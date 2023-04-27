@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="cmn">
+<head>
+<meta charset="utf-8">
+<title>打分系统</title>
+<!-- Stylesheets -->
+<link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/responsive.css' %}" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+<link rel="shortcut icon" href="" type="image/x-icon">
+<link rel="icon" href="" type="image/x-icon">
+<style>
+        table,table tr th , table tr td  { border:2px solid #0094ff; }
+        table {  line-height: 25px; text-align: center; border-collapse: collapse;}
+</style>
+<style>
+.abc{ color:red}
+</style>
+	<script type="text/javascript">
+            function changeColor(id,flag){
+                if(flag=="over"){
+                    document.getElementById(id).style.backgroundColor="red";
+                }else if(flag=="out"){
+                    document.getElementById(id).style.backgroundColor="white";
+                }
+            }
+</script>
+
+
+<!-- Responsive -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!--[if lt IE 9]><script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+</head>
+{% if request.user.is_authenticated %}
+<body class="hidden-bar-wrapper">
+
+<div class="page-wrapper">
+
+	<!-- Preloader -->
+    <div class="preloader"></div>
+	<!-- End Preloader -->
+
+ 	<!-- Header Style One -->
+    <header class="main-header">
+
+		<!-- Header Top -->
+        <div class="header-top">
+            <div class="auto-container">
+                <div class="inner-container clearfix">
+					<!-- Top Left -->
+					<div class="top-left clearfix">
+						<div class="text"><li><a href="{% url 'logout'%}"><h5>退出登录</h5></a></li></div>
+					</div>
+
+					<!-- Top Right -->
+
+
+                </div>
+            </div>
+        </div>
+
+		<!-- Header Lower -->
+        <div class="header-lower">
+        	<div class="auto-container clearfix">
+
+				<!-- Nav Outer -->
+				<div class="nav-outer clearfix">
+					<!-- Mobile Navigation Toggler -->
+					<div class="mobile-nav-toggler"><span class="icon flaticon-menu"></span></div>
+					<!-- Main Menu -->
+					<nav class="main-menu navbar-expand-md">
+						<div class="navbar-header">
+							<!-- Toggle Button -->
+							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+
+						<div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+							<ul class="navigation clearfix">
+								<div>&nbsp</div>
+								<div>&nbsp</div>
+								<div>&nbsp</div>
+								<li><h3 style="font-color:black">物料信息上传</h3></li>
+							</ul>
+						</div>
+					</nav>
+
+
+				</div>
+
+            </div>
+        </div>
+        <!-- End Header Lower -->
+
+		<!-- Sticky Header  -->
+        <div class="sticky-header">
+            <div class="auto-container clearfix">
+                <!--Logo-->
+                <div class="logo pull-left">
+                    <a title=""><img src="" alt="" title=""></a>
+                </div>
+                <!--Right Col-->
+                <div class="pull-right">
+
+                    <!-- Main Menu -->
+                    <nav class="main-menu">
+                        <!--Keep This Empty / Menu will come through Javascript-->
+                    </nav>
+					<!-- Main Menu End-->
+
+					<!-- Mobile Navigation Toggler -->
+					<div class="mobile-nav-toggler"><span class="icon flaticon-menu-1"></span></div>
+
+                </div>
+            </div>
+        </div><!-- End Sticky Menu -->
+
+		<!-- Mobile Menu  -->
+        <div class="mobile-menu">
+            <div class="menu-backdrop"></div>
+            <div class="close-btn"><span class="icon flaticon-multiply"></span></div>
+
+            <nav class="menu-box">
+                <div class="nav-logo"><a href="index.html"><img src="" alt="" title=""></a></div>
+                <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
+            </nav>
+        </div><!-- End Mobile Menu -->
+
+    </header>
+    <!-- End Main Header -->
+
+
+
+	<!-- Page Title Section -->
+	<!-- <section class="page-title" style="background-image: url(/static/assets/images/background/bg1.jpg)">
+		<div class="auto-container">
+			<div class="content">
+				<div class="text">欢迎来到打分系统</div>
+				<h1>数据上传编辑</h1>
+			</div>
+			<div class="breadcrumb-outer">
+				<ul class="page-breadcrumb">
+					<li><a href="{% url 'logout' %}">退出</a></li>
+					<li>物料信息</li>
+				</ul>
+			</div>
+		</div>
+	</section>-->
+	<!-- End Page Title Section -->
+
+	<!-- Courses Page Section -->
+	<section class="courses-page-section">
+		<div class="auto-container">
+
+			<!-- Order Box -->
+			<div class="order-box">
+				<div class="clearfix">
+					<div class="pull-left">
+						<div class="text">共 <span class="text"> {{ goods_nums }} </span> 条数据</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Order Box -->
+				<div style="font-size:16px;font color:white">
+				<button type="button" style="width:80px; height:40px; background-color:rgb(205,218,235); border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);"><a href="{% url 'export_users_xls' %}">导出</a>
+				</button>
+					<button type="button" style="width:80px; height:40px; background-color:rgb(205,218,235); border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);"><a href="{% url 'upsort'%}">排序</a>
+				</button>
+				</div>
+			<div>&nbsp</div>
+			<span style="font-size:16px;">
+				<body>
+				<div style="float:right">
+				<form action="{% url 'search'%}" method="post" autocomplete="off">
+					<input  type="text" name="search" style="width:100px;height:30px;border:0.5px solid #378888" placeholder="输入型号" >
+					<button type="button" style="width:80px; height:40px; background-color:rgb(205,218,235); border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
+						<input type="submit" value="搜索" style="background-color:rgb(205,218,235)"></button>
+					{% csrf_token %}
+				</form>
+				</div>
+				<div style="float:right">&nbsp&nbsp&nbsp</div>
+				<div style="float:right">
+					<form action="{% url 'filter'%}" method="post" autocomplete="off">
+						<select class="agile-year" name="user" style="width:120px;height:30px;border:0.5px solid #378888">
+						<option value="所有" label="选择评估人" selected="selected">评估人</option>
+							<option>所有</option>
+						{% for user in all_users %}
+							{% if user.roles_id == 1 %}
+						<option>{{user.name}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+					<button type="button" style="width:80px; height:40px; background-color:rgb(205,218,235); border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
+						<input type="submit" value="筛选" style="background-color:rgb(205,218,235)"></button>
+						{% csrf_token %}
+				</form>
+				</div>
+			</body>
+			</span>
+	</div>
+	</section>
+
+			<div>&nbsp</div>
+
+					<div style="width:1800px;text-align:center;margin:0 auto;">
+						<table class="table" cellspacing="10" cellpadding="0" width="100%" align="center" border="1" frame="vsides" rules="all" id="item" style="word-wrap:break-word;white-space:normal;align:center">
+
+							<tr style="background:rgb(205,218,235);">
+								<th style="width:30px">编号</th>
+								<th style="width:103px">添加时间</th>
+								<th style="width:180px">型号</th>
+								<th style="width:56px">小型包装型号</th>
+								<th style="width:56px">小型包装型号2</th>
+								<th style="width:50px">成本</th>
+								<th style="width:50px">参考价</th>
+								<th style="width:95px"><div style="color:red;font-size:22px">倍数</div></th>
+								<th style="width:50px">正能量搜索次数</th>
+								<th width="70">云价格次数</th>
+								<th style="width:50px">IC网现货排名商家</th>
+								<th style="width:60px">IC网现货数</th>
+								<th style="width:60px">同行现货变化</th>
+								<th width="70">云汉商城情况</th>
+								<th width="70px">评估人</th>
+								<th width="250px">备注</th>
+								<th width="60px"><div  style="color:red;font-size:22px">总分</div></th>
+
+								<th width="60px">物料状态</th>
+								<th width="90">物料评级</th>
+								<th width="100px" align="center">操作</th>
+							</tr>
+
+							<tr style="background:rgb(255,255,255);">
+								<form action="{% url 'upload'%}" method="post" autocomplete="off">
+									<th style="color:rgb(144,144,144);width:30px">\</th>
+									<th style="color:rgb(144,144,144);width:103px">（\）</th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="version" style="width:180px;height:50px" required=""></th>
+									<th style="color:rgb(144,144,144);"><input type="text" name="x1" style="width:28px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="x2" style="width:28px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="cost" style="width:50px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="rp" style="width:50px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);">（\）</th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="search" style="width:80px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="cloudp" style="width:50px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="ic_same" style="width:50px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="ic_now" style="width:50px;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);"><input type="text" name="same_now" style="width:50px;height:50px" required=""></th>
+								<th style=""><input type="text" name="clouds" style="width:50px;;height:50px" required=""></th>
+								<th style="color:rgb(144,144,144);">（\）</th>
+								<th style="color:rgb(144,144,144);"><textarea rows="2" cols="30" name="detail" wrap=“physical”></textarea></th>
+									<th style="color:rgb(144,144,144);">（\）</th>
+
+								<th style="color:rgb(144,144,144);width:60px">（\）</th>
+								<th style="color:rgb(144,144,144);">（\）</th>
+								<td style="color:rgb(144,144,144);">
+									<input type="submit" value="上传" style="width:80px; height:40px; background-color:rgb(205,218,235);font-size:16px;border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
+								</td>
+									{% csrf_token %}
+								</form>
+							</tr>
+
+			<tbody style="position:absolute;width:1800px;height: 400px;overflow: auto">
+
+			{% for goods in all_goods %}
+
+				<!-- Course Block -->
+							<tr style="background:rgb(255,255,255);">
+								<th style="color:rgb(144,144,144);width:40px"></th>
+								<th name="td0" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:60px">{{goods.add_time}}</div></th>
+								<th name="td1" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:180px"><div style="width:180px">{{goods.version}}</div></th>
+								<th name="td2" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:50px"><div style="width:26px">{{goods.x1}}</div></th>
+								<th name="td3" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:50px"><div style="width:26px">{{goods.x2}}</div></th>
+								<th name="td2" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:50px"><div style="width:52px">{{goods.cost}}</div></th>
+								<th name="td3" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:54px"><div style="width:54px">{{goods.rp}}</div></th>
+								<th name="td4" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="color:red;font-size:22px;width:56px">{{goods.mul}}</div></th>
+								<th name="td5" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:84px"><div style="width:84px">{{goods.search}}</div></th>
+								<th name="td6" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:50px">{{goods.cloudp}}</div></th>
+								<th name="td7" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:50px"><div style="width:50px">{{goods.ic_same}}</div></th>
+								<th name="td8" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:50px">{{goods.ic_now}}</div></th>
+								<th name="td9" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:50px">{{goods.same_now}}</div></th>
+								<th style="display:table-cell; vertical-align:middle;"><div style="width:50px">{{goods.clouds}}</div></th>
+								<th style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:43px">{{goods.user}}</div></th>
+								<th style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:230px">{{goods.detail}}</div></th>
+								<th style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="color:red;font-size:22px">{{goods.total}}</div></th>
+
+								<th style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;width:60px"><div style="width:36px">{{goods.state}}</div></th>
+								<th style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;"><div style="width:70px">{{goods.grade}}</div></th>
+								<td name="td16" style="color:rgb(144,144,144);display:table-cell; vertical-align:middle;">
+									<a href="{% url 'upload_edit'%}?id={{ goods.id }}" >编辑</a>
+									<a href="{% url 'upload_delete'%}?id={{ goods.id }}" >删除</a>
+								</td>
+							</tr>
+
+			{% endfor %}
+			</tbody>
+						</table>
+					</div>
+
+
+
+
+</div>
+	<!-- End Courses Page Section -->
+
+
+<!-- End PageWrapper -->
+
+
+
+<!-- Scroll To Top -->
+<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-arrow-up"></span></div>
+
+<script src="{% static 'assets/js/jquery.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Revolution Slider -->
+<script src="{% static 'assets/plugins/revolution/js/jquery.themepunch.revolution.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/jquery.themepunch.tools.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.actions.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.carousel.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.kenburn.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.migration.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.navigation.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.parallax.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/extensions/revolution.extension.video.min.js' %}"></script>
+<script src="{% static 'assets/plugins/revolution/js/main-slider-script.js' %}"></script>
+<!-- For Js Library -->
+
+<script src="{% static 'assets/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.fancybox.js"></script>
+<script src="{% static 'assets/js/appear.js' %}"></script>
+<script src="{% static 'assets/js/parallax.min.js' %}"></script>
+<script src="{% static 'assets/js/tilt.jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.paroller.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.js' %}"></script>
+<script src="{% static 'assets/js/wow.js' %}"></script>
+<script src="{% static 'assets/js/validate.js' %}"></script>
+<script src="{% static 'assets/js/nav-tool.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.js' %}"></script>
+<script src="{% static 'assets/js/script.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+        $(function(){
+            // 全选 or 全取消
+            $('#checkAll').click(function(event) {
+                var tr_checkbox = $('table tbody tr').find('input[type=checkbox]');
+                tr_checkbox.prop('checked', $(this).prop('checked'));
+                // 阻止向上冒泡，以防再次触发点击操作
+                event.stopPropagation();
+            });
+
+            // 点击表格每一行的checkbox，表格所有选中的checkbox数 = 表格行数时，则将表头的‘checkAll’单选框置为选中，否则置为未选中
+            $('table tbody tr').find('input[type=checkbox]').click(function(event) {
+                var tbr = $('table tbody tr');
+                $('#checkAll').prop('checked', tbr.find('input[type=checkbox]:checked').length == tbr.length ? true : false);
+                // 阻止向上冒泡，以防再次触发点击操作
+                event.stopPropagation();
+            });
+
+            // 点击表格行(行内任意位置)，触发选中或取消选中该行的checkbox
+            $('table tbody tr').click(function() {
+                $(this).find('input[type=checkbox]').click();
+            });
+
+        });
+</script>
+<SCRIPT LANGUAGE="javascript">
+<!--
+function openwin(){
+window.open ('{% url 'upload' %}', '上传', 'height=500, width=400, top=300, left=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no,status=no')
+//写成一行
+}
+-->
+</SCRIPT>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.table2excel.js' %}"></script>
+<script type="text/javascript">
+          //排序
+    //参数说明：conlNo:是按照哪一列进行排序从0开始计算的
+    //        index：是第几个tbody标签 如果这个页面只有1个表那就是0 ，这个也是从0开始计算
+    function sortTable (colNo,index) {
+        //var isSort = [false,false,true];//标记是否排过序
+        var rowsArray = [];//表格中所有行的集合
+        var colsArray = [];//表格中所有列的集合
+        //选中要排序的表
+        var tbody = document.getElementsByTagName('tbody')[index];
+        //初始化行和列
+        for (var i = 0; i < tbody.rows.length; i++) {
+            rowsArray[i] = tbody.rows[i];
+            colsArray[i] = rowsArray[i].cells[colNo];
+            //console.log(typeof(colsArray[i]));
+
+        }
+        //排序
+        colsArray.sort(function (a,b) {
+           return b.innerHTML - a.innerHTML;//将被点的那一列降序排序
+         });
+         colsArray.reverse();
+
+        for (var i = 0; i < tbody.rows.length; i++) {
+            console.log(rowsArray[i]);
+        }
+        //当某一列排序后将表格所有元素的值放到新的数组中
+        var rowsTempArray = [];
+        for (var i = 0; i < rowsArray.length; i++) {
+            var colsTempArray = [];
+
+            //console.log(colsArray.length)
+            //console.log("列数")
+            //tbody.rows[0].cells.length  获取列的长度
+            for (var j = 0; j < tbody.rows[0].cells.length; j++) {
+                //将i行的所有列的内容保存在colsTempArray[j]中
+                //console.log(colsArray[i].parentNode.cells[j]);
+                colsTempArray[j] = colsArray[i].parentNode.cells[j].innerHTML;;
+            }
+            //将一行内容保存到rowsTempArray。
+            rowsTempArray[i] = colsTempArray;
+        }
+        //重绘页面
+        for (var i = 0; i < rowsArray.length; i++) {
+            for (var j = 0; j < tbody.rows[0].cells.length; j++) {
+                rowsArray[i].cells[j].innerHTML = rowsTempArray[i][j];
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    function base64 (content) {
+       return window.btoa(unescape(encodeURIComponent(content)));
+    }
+    /*
+    *@tableId: table的Id
+    *@fileName: 要生成excel文件的名字（不包括后缀，可随意填写）
+    */
+    function tableToExcel(tableID,fileName){
+        var table = document.getElementById(tableID);
+      var excelContent = table.innerHTML;
+      var excelFile = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
+      excelFile += "<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>";
+      excelFile += "<body><table>";
+      excelFile += excelContent;
+      excelFile += "</table></body>";
+      excelFile += "</html>";
+      var link = "data:application/vnd.ms-excel;base64," + base64(excelFile);
+      var a = document.createElement("a");
+      a.download = fileName+".xlsx";
+      a.href = link;
+      a.click();
+    }
+</script>
+<script>
+window.onload = function(){
+
+    var oTable = document.getElementById("item");
+
+    for(var i=1;i<oTable.rows.length;i++){
+
+    oTable.rows[i+1].cells[0].innerHTML = (i);
+
+}
+
+}
+</script>
+</body>
+{% endif %}
+
+
+</html>

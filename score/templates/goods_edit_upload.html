@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="cmn">
+<head>
+<title>打分系统</title>
+<!-- metatags-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="wedlock register form a Flat Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Meta tag Keywords -->
+<!-- css -->
+<link rel="stylesheet" href="{% static 'css/style_3.css' %}" type="text/css" media="all" />
+<!--// css -->
+<link href="//fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+</head>
+<body>
+	<section class="agile-header">
+		<div class="agile-heading">
+			<h1><span class="image"></span><label>输入</label>修改<label>——</label>信息</h1>
+		</div>
+		<div class="agile-form">
+			<form action="{% url 'upload_edit_back'%}?id={{ goods.id }}" method="post">
+				<div class="agile-email">
+					<p>型号</p>
+					<input type="text" name="version" placeholder="型号" required="" value="{{goods.version}}">
+				</div>
+				<div class="agile-email">
+					<p>小型包装型号</p>
+					<input type="text" name="x1" placeholder="型号" required="" value="{{goods.version}}">
+				</div>
+				<div class="agile-email">
+					<p>小型包装型号1</p>
+					<input type="text" name="x2" placeholder="型号" required="" value="{{goods.version}}">
+				</div>
+				<div class="agile-email">
+					<p>成本</p>
+					<input type="text" name="cost" placeholder="成本" required="" value="{{goods.cost}}">
+				</div>
+				<div class="agile-email">
+					<p>参考价</p>
+					<input type="text" name="rp" placeholder="参考价" required="" value="{{goods.rp}}">
+				</div>
+				<div class="agile-email">
+					<p>正能量搜索次数</p>
+					<input type="text" name="search" placeholder="正能量搜索次数" required="" value="{{goods.search}}">
+				</div>
+				<div class="agile-email">
+					<p>云价格次数</p>
+					<input type="text" name="cloudp" placeholder="云价格次数" required="" value="{{goods.cloudp}}">
+				</div>
+				<div class="agile-email">
+					<p>IC网同行数</p>
+					<input type="text" name="ic_same" placeholder="IC网同行数" required="" value="{{goods.ic_same}}">
+				</div>
+				<div class="agile-email">
+					<p>IC网现货数</p>
+					<input type="text" name="ic_now" placeholder="IC网现货数" required="" value="{{goods.ic_now}}">
+				</div>
+				<div class="agile-email">
+					<p>同行现货变化</p>
+					<input type="text" name="same_now" placeholder="同行现货变化" required="" value="{{goods.same_now}}">
+				</div>
+                <div class="agile-email">
+					<p>云汉商城情况</p>
+					<input type="text" name="clouds" placeholder="云汉商城情况" required="" value="{{goods.clouds}}">
+				</div>
+				<div class="agile-email">
+					<p>物料说明</p>
+					<input type="text" name="detail" placeholder="物料说明" required="" value="{{goods.detail}}">
+				</div>
+
+				<div class="agile-submit">
+					<input type="submit" value="修改">
+				</div>
+				 {% csrf_token %}
+			</form>
+		</div>
+		<div class="clear"></div>
+
+
+	</section>
+
+</body>
+</html>
